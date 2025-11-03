@@ -1,0 +1,108 @@
+
+name: PachangApp Despliegue Secuencial en EC2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: 1. Instalar y Probar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Ejecutar pruebas (npm test)
+        run: npm test
+
+  build:
+    name: 2. Construir Artefactos
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Generar documentacion
+        run: npm run docs
+      - name: Subir artefacto del sitio web
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-site
+          path: src/
+      - name: Subir artefacto de la documentación
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: docs/
+      - name: Subir artefacto de las imágenes
+        uses: actions/upload-artifact@v4
+        with:
+          name: images-folder
+          path: images/
+
+  # DESPLEGAR EN EC2 
+  deploy:
+    name: 3. Desplegar en AWS EC2
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      
+      - name: Descargar artefacto del sitio web
+        uses: actions/download-artifact@v4
+        with:
+          name: static-site
+          path: ./sitio-web
+      - name: Descargar artefacto de la documentación
+        uses: actions/download-artifact@v4
+        with:
+          name: documentation
+          path: ./sitio-docs
+      - name: Descargar artefacto de las imágenes
+        uses: actions/download-artifact@v4
+        with:
+          name: images-folder
+          path: ./sitio-imagenes
+
+      # Configurar la clave SSH
+      # Esta action instala la EC2_KEY en la máquina virtual 
+      # para que los comandos 'scp' y 'ssh' puedan usarla.
+      - name: Configurar SSH Key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.EC2_KEY }}
+
+      # Copiar archivos a EC2 con SCP
+      # Copiamos los archivos de la web a /var/www/html (la raíz de Nginx)
+      - name: Copiar archivos del sitio web a EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -r ./sitio-web/* ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/html/
+
+      # Copiar las imágenes
+      - name: Copiar imágenes a EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /var/www/html/images"
+          scp -o StrictHostKeyChecking=no -r ./sitio-imagenes/* ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/html/images/
+
+      # Copiar la documentación
+      - name: Copiar documentación a EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /var/www/html/docs"
+          scp -o StrictHostKeyChecking=no -r ./sitio-docs/* ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/html/docs/
+          
+      - name: ¡Despliegue completado!
+        run: echo "Sitio desplegado en http://${{ secrets.EC2_HOST }}"
