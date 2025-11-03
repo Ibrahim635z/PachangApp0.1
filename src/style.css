@@ -1,0 +1,423 @@
+/* Generales */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px 5%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo {
+    height: 40px; /* Ajusta el tamaño del logo */
+    margin-right: 20px;
+}
+
+.navbar-left nav a {
+    margin-right: 20px;
+    font-weight: 600;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.navbar-left nav a:hover,
+.navbar-left nav a.active {
+    color: #4CAF50; /* Color verde de tu app */
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.btn-login {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #45a049;
+}
+
+.menu-toggle {
+    display: none; /* Ocultar por defecto, se mostrará en móvil */
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #555;
+    margin-left: 15px;
+}
+
+/* Hero Section */
+.hero {
+    background: url('hero-bg.jpg') no-repeat center center/cover; /* Asegúrate de tener esta imagen */
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Oscurece la imagen de fondo */
+    z-index: 1;
+}
+
+.hero * {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 3.5em;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.hero-actions .btn-primary,
+.hero-actions .btn-secondary {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+.hero-actions .btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    border: 2px solid #4CAF50;
+}
+
+.hero-actions .btn-primary:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.hero-actions .btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.hero-actions .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Secciones Generales */
+.section-title {
+    text-align: center;
+    margin: 40px 0 20px 0;
+}
+
+.section-title h2 {
+    font-size: 2em;
+    color: #333;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    width: 60px;
+    height: 3px;
+    background-color: #4CAF50;
+    border-radius: 2px;
+}
+
+/* Tarjetas de Partidos */
+.matches-near-you, .top-players, .latest-reviews {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px 5%;
+}
+
+.match-card, .player-card, .review-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 300px;
+    transition: transform 0.3s ease;
+}
+
+.match-card:hover, .player-card:hover, .review-card:hover {
+    transform: translateY(-5px);
+}
+
+.match-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.match-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.match-info p {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #666;
+}
+
+.match-info .match-time {
+    font-weight: 700;
+    color: #4CAF50;
+    font-size: 1.1em;
+}
+
+.match-info .match-spots {
+    background-color: #e0f2f1;
+    color: #00796b;
+    padding: 3px 8px;
+    border-radius: 15px;
+    display: inline-block;
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+/* Tarjetas de Jugadores */
+.player-card {
+    text-align: center;
+    padding: 20px;
+    width: 150px; /* Ajusta el ancho para 3 en fila más fácil */
+}
+
+.player-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid #4CAF50;
+}
+
+.player-name {
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.player-detail {
+    font-size: 0.85em;
+    color: #777;
+}
+
+/* Tarjetas de Reseñas */
+.review-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.reviewer-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.reviewer-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #4CAF50;
+}
+
+.review-text {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.stars {
+    color: #FFD700; /* Color dorado para las estrellas */
+    font-size: 1.2em;
+}
+
+/* Footer */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 25px 5%;
+    margin-top: 50px;
+}
+
+.footer-left p {
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.footer-right nav a {
+    margin-left: 20px;
+    color: #bbb;
+    transition: color 0.3s ease;
+}
+
+.footer-right nav a:hover {
+    color: white;
+}
+
+.social-icons {
+    margin-left: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons img {
+    height: 24px;
+    filter: invert(100%); /* Para que los iconos sean blancos */
+}
+
+/* Media Queries para Responsive Design */
+@media (max-width: 900px) {
+    .navbar-left nav {
+        display: none; /* Ocultar enlaces de navegación en pantallas más pequeñas */
+        flex-direction: column;
+        position: absolute;
+        top: 60px; /* Debajo del navbar */
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        z-index: 10;
+    }
+
+    .navbar-left nav.active {
+        display: flex;
+    }
+
+    .navbar-left nav a {
+        padding: 10px 20px;
+        border-bottom: 1px solid #eee;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block; /* Mostrar botón de menú */
+    }
+
+    .hero h1 {
+        font-size: 2.5em;
+    }
+
+    .hero p {
+        font-size: 1em;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+    }
+
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary {
+        margin: 10px 0;
+        width: 80%;
+        max-width: 300px;
+    }
+
+    .matches-near-you, .top-players, .latest-reviews {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .match-card, .player-card, .review-card {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .footer-right nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-right nav a {
+        margin: 0;
+    }
+
+    .social-icons {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .navbar-logo {
+        height: 35px;
+    }
+
+    .btn-login {
+        padding: 6px 15px;
+    }
+
+    .hero h1 {
+        font-size: 2em;
+    }
+
+    .hero p {
+        font-size: 0.9em;
+    }
+
+    .section-title h2 {
+        font-size: 1.5em;
+    }
+}
