@@ -86,5 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
    
-    
+  
 });
+
+
+  module.exports = { handleLogin, handleCreateMatch, showMatchDetails };
