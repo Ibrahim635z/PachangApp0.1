@@ -59,6 +59,12 @@ jobs:
         with:
           name: documentation
           path: docs/
+          
+      - name: Subir artefacto de las imágenes 
+        uses: actions/upload-artifact@v4
+        with:
+          name: images-folder
+          path: images/
 
   # DESPLEGAR EN S3
   deploy:
@@ -86,6 +92,12 @@ jobs:
         with:
           name: documentation
           path: ./sitio-docs
+          
+      - name: Descargar artefacto de las imágenes 
+        uses: actions/download-artifact@v4
+        with:
+          name: images-folder
+          path: ./sitio-imagenes
 
       - name: Desplegar sitio web en S3
         run: |
@@ -94,3 +106,8 @@ jobs:
       - name: Desplegar documentación en S3
         run: |
           aws s3 sync ./sitio-docs/ s3://${{ secrets.S3_BUCKET_NAME }}/docs --delete
+
+      - name: Desplegar imágenes en S3
+        run: |
+          aws s3 sync ./sitio-imagenes/ s3://${{ secrets.S3_BUCKET_NAME }}/images --delete
+
