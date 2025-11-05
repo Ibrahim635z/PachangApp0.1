@@ -4,9 +4,7 @@ name: PachangApp Despliegue Secuencial en AWS S3
 # Disparadores
 on:
   # Disparador manual
-  push:
-    branches:
-      -main
+  workflow_dispatch:
 
 jobs:
   # PROBAR
